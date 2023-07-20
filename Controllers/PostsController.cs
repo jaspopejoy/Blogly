@@ -302,7 +302,7 @@ namespace Blogly.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("BlogPostIndex", "Posts", new { post.Slug });
+                return RedirectToAction("BlogPostIndex", new { id = post.BlogId });
             }
             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description", post.BlogId);
             ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id", post.BlogUserId);
