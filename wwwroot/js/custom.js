@@ -53,7 +53,8 @@ $("form").on("submit", function () {
 //Look for the tagValues variable to see if it has data
 if (tagValues != '') {
     let tagArray = tagValues.split(",");
-    for (let loop = 0; loop < tagArray.length; loop++) {
+    for (let loop = 0; loop < tagArray.length; loop++)
+    {
         //Load up or Replace the options that we have
         ReplaceTag(tagArray[loop], loop);
         index++;
