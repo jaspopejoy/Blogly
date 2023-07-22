@@ -62,6 +62,7 @@ namespace Blogly.Services
                 UserName = "cyphre187@gmail.com",
                 FirstName = "Jason",
                 LastName = "Popejoy",
+                DisplayName = "Jason Popejoy",
                 EmailConfirmed = true
             };
 
@@ -77,6 +78,7 @@ namespace Blogly.Services
                 UserName = "nytfury77@yahoo.com",
                 FirstName = "Jason",
                 LastName = "Popejoy",
+                DisplayName = "Jason Popejoy",
                 EmailConfirmed = true
             };
 
