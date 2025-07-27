@@ -79,6 +79,11 @@
     --bs-highlight-bg: #fff3cd;
 }
 
+body {
+    background-image: url('//i.ibb.co/M1wWZBJ/email-pattern.png');
+    margin: 0;
+}
+
 *,
 *::before,
 *::after {
@@ -12646,5 +12651,4 @@ textarea.form-control-lg {
         background: #212121;
         border-radius: 10px;
     }
-
 }

@@ -44,12 +44,13 @@ namespace Blogly.Controllers
             var blog = await _context.Blogs
                 .Include(b => b.BlogUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (blog == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View();
         }
 
         // GET: Blogs/Create
@@ -73,11 +74,11 @@ namespace Blogly.Controllers
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
 
             ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id", blog.BlogUserId);
-            return View(blog);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Blogs/Edit/5
@@ -141,7 +142,7 @@ namespace Blogly.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
 
             ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id", blog.BlogUserId);
@@ -183,7 +184,7 @@ namespace Blogly.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool BlogExists(int id)

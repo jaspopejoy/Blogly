@@ -32,7 +32,7 @@ namespace Blogly.Controllers
                  .OrderByDescending(b => b.Created)
                  .ToPagedListAsync(pageNumber, pageSize);
 
-            ViewData["HeaderImage"] = "/images/home-bg.jpg";
+            ViewData["HeaderImage"] = "/images/woodroad.jpg";
             ViewData["MainText"] = "Welcome To Blogly";
             ViewData["SubText"] = "By Jason Popejoy";
 
@@ -41,11 +41,17 @@ namespace Blogly.Controllers
 
         public IActionResult About()
         {
+            ViewData["HeaderImage"] = "/images/mountain.jpg";
+            ViewData["MainText"] = "ABOUT";
+
             return View();
         }
 
         public IActionResult Contact()
         {
+            ViewData["HeaderImage"] = "/images/home-bg.jpg";
+            ViewData["MainText"] = "CONTACT ME";
+
             return View();
         }
 

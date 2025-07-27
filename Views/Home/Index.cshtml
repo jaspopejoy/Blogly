@@ -15,37 +15,51 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    .clampoverview {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .ClampTitle {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    h5.card-title {
+        height: 2.5rem;
+    }
+</style>
+
 <!-- Page content-->
 <!-- Nested row for non-featured blog posts-->
 <div class="row">
     <!-- Blog post-->
     @foreach (var blog in Model)
     {
-        <div class="col-md-6 mt-2">
+        <div class="col-md-6 mt-2 d-flex">
             <div class="card mb-4">
                 <img class="card-img-top"
                      src="@_imageService.DecodeImage(blog.ImageData, blog.ContentType)" alt="..." />
                 <div class="card-body d-grid gap-1 text-center">
                     <div class="small text-muted"><strong>Created</strong>: @blog.Created.ToString("MMM dd, yyyy")</div>
-                    <h2 class="card-title h4">Post @blog.Name</h2>
-                    <p class="card-text">
-                        @blog.Description
-                    </p>
+                    <h2 class="card-title h4 clamptitle">@blog.Name</h2>
+                    <p class="card-text clampoverview"> @blog.Description </p>
                         <a class="btn btn-dark" asp-action="BlogPostIndex" asp-controller="Posts" asp-route-id="@blog.Id">Read Posts</a>
                         @if (User.IsInRole(BlogRole.Administrator.ToString()))
                         {
                             <a class="btn btn-dark" asp-action="Create" asp-controller="Posts" asp-route-id="@blog.Id">Create Post</a>
-                        }
-
-                        @if (User.IsInRole(BlogRole.Administrator.ToString()))
-                        {
                             <a class="btn btn-dark" asp-action="Edit" asp-controller="Blogs" asp-route-id="@blog.Id">Edit Blog</a>
-                        }
+                            <a class="btn btn-dark" asp-action="Delete" asp-controller="Blogs" asp-route-id="@blog.Id">Delete Blog</a>
 
+                        }
                 </div>
             </div>
         </div>
-
     }
 </div>
 

@@ -14,28 +14,31 @@
 }
 
 <!-- Page content-->
-<article>
-    <!-- Post header-->
-    <header class="mb-4 text-center">
-
-        <!-- Post title-->
-        <h1 class="fw-bolder mb-1">@Model.Title</h1>
-
-        <!-- Post meta content-->
-        <div class="text-muted fst-italic mb-2">Posted on @Model.Created.ToString("MMM dd, yyyy")</div
-
-        <!-- Post tags -->
-        @foreach (var tag in Model.Tags)
-        {
-        <a asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()" name="Tag" class="badge bg-secondary text-decoration-none link-light">@tag.Text</a>
-        }
-    </header>
-
-    <hr />
-
-    <!-- Post content-->
+<article> 
     <div class="mb-5">
-        @Html.Raw(Model.Content)
+        <div class="card shadow">
+
+            <!-- Post header-->
+            <header class="mb-4 text-center">
+
+                <!-- Post title-->
+                <h1 class="card-title fw-bolder mb-2 mt-3">@Model.Title</h1>
+
+                <!-- Post meta content-->
+                <div class="text-muted fst-italic mb-2">Posted on @Model.Created.ToString("MMM dd, yyyy")</div
+
+                <!-- Post tags -->
+                @foreach (var tag in Model.Tags)
+                {
+                <a asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()" name="Tag" class="badge bg-secondary text-decoration-none link-light">@tag.Text</a>
+                }
+            </header>
+
+            <!-- Post content-->
+            <div class="card-body">
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
     </div>
 </article>
 

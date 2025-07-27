@@ -11,6 +11,7 @@ using X.PagedList;
 using MimeKit.Tnef;
 using MailKit.Search;
 using System.Linq;
+using Microsoft.Extensions.Hosting;
 
 namespace Blogly.Controllers
 {
@@ -47,11 +48,9 @@ namespace Blogly.Controllers
         public async Task<IActionResult> TagIndex(int? page, string tag)
         {
 
-            var posts = _context.Posts.Where(p => p.ReadyStatus == ReadyStatus.ProductionReady).AsQueryable();
+            var posts = _context.Posts.Where(p => p.Tags.Any(t => t.Text.ToLower().Contains(tag)));
             var pageNumber = page ?? 1;
             var pageSize = 6;
-
-            posts = posts.Where(p => p.Tags.Any(t => t.Text.Contains(tag)));
 
             return View(await posts.ToPagedListAsync(pageNumber, pageSize));
         }
@@ -72,34 +71,24 @@ namespace Blogly.Controllers
             }
 
             var pageNumber = page ?? 1;
-            var pageSize = 5;
+            var pageSize = 6;
 
             //var posts = _context.Posts.Where(p => p.BlogId == id);
             var posts = _context.Posts
-                .Where(p => p.BlogId == id && p.ReadyStatus == ReadyStatus.ProductionReady)
+                .Where(p => p.BlogId == id)
                 .OrderByDescending(p => p.Created)
                 .ToPagedListAsync(pageNumber, pageSize);
 
+            var blog = await _context.Blogs
+               .Include(b => b.BlogUser)
+               .FirstOrDefaultAsync(m => m.Id == id);
+
+            ViewData["HeaderImage"] = _imageService.DecodeImage(blog.ImageData, blog.ContentType);
+            ViewData["MainText"] = blog.Name;
+            ViewData["SubText"] = blog.Description;
+
             return View(await posts);
         }
-
-        //TagIndex
-        //public async Task<IActionResult> TagIndex(string? tag, int? page)
-        //{
-        //    if (tag is null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var pageNumber = page ?? 1;
-        //    var pageSize = 5;
-
-        //    //var posts = _context.Posts.Where(p => p.BlogId == id);
-        //    var posts = _context.Posts
-        //        .Where(p => p.Tags == tag)
-        //        .ToPagedListAsync(pageNumber, pageSize);
-
-        //    return View(await posts);
-        //}
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(string? slug)
@@ -310,9 +299,9 @@ namespace Blogly.Controllers
         }
 
         // GET: Posts/Delete/5
-        public async Task<IActionResult> Delete(string slug)
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (slug == null || _context.Posts == null)
+            if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
@@ -320,7 +309,7 @@ namespace Blogly.Controllers
             var post = await _context.Posts
                 .Include(p => p.Blog)
                 .Include(p => p.BlogUser)
-                .FirstOrDefaultAsync(m => m.Slug == slug);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
                 return NotFound();
