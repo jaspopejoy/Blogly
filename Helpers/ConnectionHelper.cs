@@ -18,7 +18,7 @@ namespace Blogly.Helpers
             var userInfo = databaseUri.UserInfo.Split(':');
             var builder = new NpgsqlConnectionStringBuilder
             {
-                //Host = databaseUri.Host,
+                Host = databaseUri.Host,
                 Port = databaseUri.Port,
                 Username = userInfo[0],
                 Password = userInfo[1],
